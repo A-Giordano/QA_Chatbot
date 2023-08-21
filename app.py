@@ -20,6 +20,7 @@ async def main(message):
     )
     cb.answer_reached = True
     res = await chain.acall(message, callbacks=[cb])
+    print(res)
 
     answer = res["answer"]
     sources = res["sources"].strip()

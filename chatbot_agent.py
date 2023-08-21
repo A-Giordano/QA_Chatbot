@@ -1,6 +1,6 @@
 from functools import partial
 
-from langchain.chains import RetrievalQA
+from langchain.chains import RetrievalQA, RetrievalQAWithSourcesChain
 from langchain.chat_models import ChatOpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -56,4 +56,4 @@ def get_agent(index_name):
     embeddings = OpenAIEmbeddings()
     vectorstore = Pinecone.from_existing_index(index_name=index_name, embedding=embeddings)
     llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, streaming=True)
-    return RetrievalQA.from_chain_type(llm, retriever=vectorstore.as_retriever())
+    return RetrievalQAWithSourcesChain.from_chain_type(llm, retriever=vectorstore.as_retriever())
