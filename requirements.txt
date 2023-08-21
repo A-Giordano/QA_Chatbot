@@ -1,0 +1,6 @@
+langchain
+chainlit==0.4.101
+python-docx
+pdfplumber
+tiktoken
+pinecone-client
