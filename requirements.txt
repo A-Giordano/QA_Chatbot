@@ -3,3 +3,4 @@ chainlit
 python-docx
 pdfplumber
 pinecone-client
+tiktoken
