@@ -1,5 +1,5 @@
 langchain
-chainlit==0.4.101
+chainlit==0.4.1
 python-docx
 pdfplumber
 tiktoken
