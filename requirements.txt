@@ -2,5 +2,4 @@ langchain
 chainlit
 python-docx
 pdfplumber
-tiktoken
 pinecone-client
