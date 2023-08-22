@@ -8,8 +8,8 @@ def init():
     # prompt = PromptTemplate(template=template, input_variables=["question"])
     # llm_chain = LLMChain(prompt=prompt, llm=OpenAI(temperature=0), verbose=True)
     index_name = "qa-chatbot"
-    chain = get_agent(index_name)
-    # chain = get_memory_agent(index_name)
+    # chain = get_agent(index_name)
+    chain = get_memory_agent(index_name)
     cl.user_session.set("chain", chain)
 
 
