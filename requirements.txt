@@ -1,4 +1,5 @@
 langchain
+openai
 chainlit
 python-docx
 pdfplumber
