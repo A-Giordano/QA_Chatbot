@@ -1,7 +1,9 @@
 from functools import partial
 
-from langchain.chains import RetrievalQA
+from langchain import PromptTemplate, LLMChain
+from langchain.chains import RetrievalQA, StuffDocumentsChain
 from langchain.chains import ConversationalRetrievalChain
+from langchain.chains.question_answering import load_qa_chain
 from langchain.memory import ConversationBufferMemory
 from langchain.memory.chat_memory import BaseChatMemory
 from langchain.agents import initialize_agent, AgentType
@@ -129,5 +131,42 @@ def get_memory_agent(index_name):
                                    verbose=True)
     return agent
     # return RetrievalQA.from_chain_type(llm, retriever=vectorstore.as_retriever())
+
+
+def get_conversation_qa(index_name):
+    pinecone.init(environment="us-west1-gcp-free")
+    embeddings = OpenAIEmbeddings()
+    vectorstore = Pinecone.from_existing_index(index_name=index_name, embedding=embeddings)
+    # llm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0, streaming=True)
+    llm = PromptLayerChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
+    memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+    template = (
+        "Combine the chat history and follow up question into\n "
+        "a standalone question.\n"
+        "Chat History:\n"
+        "{chat_history}\n"
+        "Follow up question:\n"
+        "{question}"
+    )
+    prompt = PromptTemplate.from_template(template)
+    question_generator_chain = LLMChain(llm=llm, prompt=prompt)
+
+    combine_docs_chain = load_qa_chain(
+        llm,
+        chain_type="stuff",
+    )
+
+    return ConversationalRetrievalChain(
+        combine_docs_chain=combine_docs_chain,
+        retriever=vectorstore.as_retriever(),
+        question_generator=question_generator_chain,
+        memory=memory
+    )
+
+    # return ConversationalRetrievalChain.from_llm(llm=llm,
+    #                                              retriever=vectorstore.as_retriever(),
+    #                                              question_generator=question_generator_chain,
+    #                                              memory=memory)
+
 
 
