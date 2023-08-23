@@ -1,4 +1,6 @@
 langchain
+openai
+promptlayer
 chainlit
 python-docx
 pdfplumber
