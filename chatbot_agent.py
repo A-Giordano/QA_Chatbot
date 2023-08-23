@@ -96,11 +96,10 @@ def get_memory_agent(index_name):
 
     tools = [
         Tool(
-            name='TBW-Palestine_Game_Knowledge_Base',
+            name='Knowledge_Base',
             func=qa.run,
             description=(
-                'use this tool when answering questions about the TBW-Palestine game'
-                'more information about the topic'
+                'use this tool to get information, be very verbose in the query.'
             )
         )
     ]
