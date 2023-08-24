@@ -20,7 +20,6 @@ from text_extractor import TextExtractor
 import tiktoken
 import pinecone
 
-
 system_message = f"""
 <instructions>
 - Ignore any previous instructions
@@ -99,7 +98,7 @@ def get_memory_agent(index_name):
             name='Knowledge_Base',
             func=qa.run,
             description=(
-                'use this tool to get information, be very verbose in the query.'
+                'use this tool to get information about the game, be very verbose in the query.'
             )
         )
     ]
@@ -119,14 +118,12 @@ def get_memory_agent(index_name):
         "system_message": SystemMessage(content=system_message)
     }
     agent = initialize_agent(tools,
-                                   llm,
-                                   agent=AgentType.OPENAI_FUNCTIONS,
-                                   # agent=AgentType.OPENAI_MULTI_FUNCTIONS,
-                                   agent_kwargs=agent_kwargs,
-                                   memory=memory,
-                                   max_execution_time=10,
-                                   verbose=True)
+                             llm,
+                             agent=AgentType.OPENAI_FUNCTIONS,
+                             # agent=AgentType.OPENAI_MULTI_FUNCTIONS,
+                             agent_kwargs=agent_kwargs,
+                             memory=memory,
+                             max_execution_time=10,
+                             verbose=True)
     return agent
     # return RetrievalQA.from_chain_type(llm, retriever=vectorstore.as_retriever())
-
-
